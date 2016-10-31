@@ -14,6 +14,51 @@ namespace MVCPopupCRUD.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Save(Contact c)
+        {
+
+            string message = "";
+            bool status = false;
+            if (ModelState.IsValid)
+            {
+                using (DBASPEntities dc = new DBASPEntities())
+                {
+                    if (c.ContactID > 0)
+                    {
+                        var v = dc.Contacts.Where(a => a.ContactID.Equals(c.ContactID)).FirstOrDefault();
+
+                        if (v != null)
+                        {
+                            v.ContactPerson = c.ContactPerson;
+                            v.ContactNo = c.ContactNo;
+                            v.CountryID = c.CountryID;
+                            v.StateID = c.StateID;
+                        }
+                        else
+                        {
+                            return HttpNotFound();
+                        }
+                    }
+                    else
+                    {
+                        dc.Contacts.Add(c);
+                    }
+                    dc.SaveChanges();
+                    status = true;
+                    message = "Successfully Saved.";
+
+                }
+
+            }
+            else
+            {
+                message = "Error! Please try again.";
+            }
+            return new JsonResult { Data = new { status = status, message = message } };
+
+        }
 
         public ActionResult Save(int id = 0)
         {
