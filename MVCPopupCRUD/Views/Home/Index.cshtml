@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ASP MVC AJAX</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="container">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4>Contact List</h4>
+                    </div>
+                    <div class="col-lg-6" align="right">
+                        @Html.ActionLink("Add New Contact", "Save", "Home", null, htmlAttributes: new { @class = "btn btn-success", data_toggle = "modal", data_target = ".popup", })
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" id="update_panel">
+
+            </div>
+        </div>
+        <div class="modal fade popup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Contact Form</h4>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/dotnetawesome.CRUDContacts.js"></script>
+
+</body>
+</html>
