@@ -14,13 +14,50 @@ namespace MVCPopupCRUD.Controllers
             return View();
         }
 
+        public ActionResult Delete(int id)
+        {
+            var c = GetContact(id);
+            if (c == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(c);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public ActionResult DeleteContact(int id)
+        {
+            bool status = false;
+            string message = "";
+
+            using (DBASPEntities dc = new DBASPEntities())
+            {
+                var v = dc.Contacts.Where(a => a.ContactID.Equals(id)).FirstOrDefault();
+                if (v != null)
+                {
+                    dc.Contacts.Remove(v);
+                    dc.SaveChanges();
+                    status = true;
+                    message = "Successfully Deleted!";
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
+
+            return new JsonResult { Data = new { status = status, message = message } };
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(Contact c)
         {
-
             string message = "";
             bool status = false;
+
             if (ModelState.IsValid)
             {
                 using (DBASPEntities dc = new DBASPEntities())
@@ -28,7 +65,6 @@ namespace MVCPopupCRUD.Controllers
                     if (c.ContactID > 0)
                     {
                         var v = dc.Contacts.Where(a => a.ContactID.Equals(c.ContactID)).FirstOrDefault();
-
                         if (v != null)
                         {
                             v.ContactPerson = c.ContactPerson;
@@ -40,22 +76,24 @@ namespace MVCPopupCRUD.Controllers
                         {
                             return HttpNotFound();
                         }
+
                     }
                     else
                     {
                         dc.Contacts.Add(c);
                     }
+
                     dc.SaveChanges();
                     status = true;
                     message = "Successfully Saved.";
-
                 }
-
             }
             else
             {
                 message = "Error! Please try again.";
             }
+
+
             return new JsonResult { Data = new { status = status, message = message } };
 
         }
@@ -98,11 +136,18 @@ namespace MVCPopupCRUD.Controllers
             }
         }
 
+        public JsonResult GetStateList(int countryID)
+        {
+            using (DBASPEntities dc = new DBASPEntities())
+            {
+                return new JsonResult { Data = GetState(countryID), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+        }
         public List<State> GetState(int countryID)
         {
             using (DBASPEntities dc = new DBASPEntities())
             {
-                return dc.States.Where(a => a.CountryID.Equals(countryID)).OrderBy(a => a.StateName).ToList();
+                return dc.States.Where(a => a.CountryID == countryID).OrderBy(a => a.StateName).ToList();
             }
         }
 

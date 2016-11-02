@@ -10,7 +10,13 @@
     <meta name="viewport" content="width=device-width" />
     <title>ASP MVC AJAX</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-
+    <link href="~/Content/bootstrapValidator.min.css" rel="stylesheet" />
+    <style>
+        table{
+            background-color:#201d1d;
+            color:#ffffff;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -22,7 +28,7 @@
                         <h4>Contact List</h4>
                     </div>
                     <div class="col-lg-6" align="right">
-                        @Html.ActionLink("Add New Contact", "Save", "Home", null, htmlAttributes: new { @class = "btn btn-success", data_toggle = "modal", data_target = ".popup", })
+                        @Html.ActionLink("Add New Contact", "Save", "Home", null, htmlAttributes: new { @class = "btn btn-success butpopup" })
                     </div>
                 </div>
             </div>
@@ -37,16 +43,18 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Contact Form</h4>
                     </div>
-                    <div class="modal-body">
-                        ...
+                    <div class="modal-body" id="bodys">
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/dotnetawesome.CRUDContacts.js"></script>
 
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.form.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrapValidator.min.js"></script>
+    <script src="~/Scripts/dotnetawesome.CRUDContacts.js"></script>
 </body>
 </html>
